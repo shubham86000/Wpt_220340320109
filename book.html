@@ -1,0 +1,138 @@
+<!-- CODE OF HTML TO ADD AND VIEW ALL -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="jquery-3.6.0.js"></script> -->
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+
+></script>
+    <script>
+    $(()=> {
+
+$("#input1").blur(()=>{
+    let y = $("#input1").val();
+    
+    let ajaxparameters={
+        data:{ pqr: y},
+        url: "http://localhost:900/findme",
+        type: "get",
+        dataType: "json",
+        success:(data)=> {
+            console.log(data);
+							console.log("success data1");
+                            if(data.status){
+                            $("#msg1").text("bookid is not found in the table");
+                            }
+                            else{
+                            $("#msg1").text("bookid is found in the table");
+                            }
+                        
+                    },
+         error: (error)=> {
+                        console.log('we have trouble ' + error);
+                    }
+    }
+    $.ajax(ajaxparameters);
+});
+
+
+
+$("#Btn").click(()=>{
+   
+    let x = $("#input1").val();
+   
+    let y = $("#input2").val();
+   
+    let z = $("#input3").val();
+    
+    let ajaxparameters={
+        data:{ a: x,b:y,c:z},
+    
+        url: "http://localhost:900/Add",
+     
+     
+        type: "get",
+        dataType: "json",
+        success:(data)=> {
+            console.log(data);
+							console.log("success data2");
+                            if(data.status){
+                            $("#msg1").text("Book Added");
+                            }
+                            else{
+                            $("#msg1").text("Book not Added");
+                            }
+                    },
+         error: (error)=> {
+                      
+                        console.log("we have trouble "+ error)
+                    }
+    }
+    $.ajax(ajaxparameters);
+});
+
+$("#Btn").click(()=>{
+   
+    
+    let ajaxparameters={
+   
+        data:{},
+        url: "http://localhost:8081/showall",
+    
+    
+        type: "get",
+        dataType: "json",
+     
+        success:(data)=> {
+            console.log(data);
+							console.log("success data3");
+                           
+                                books= data;
+
+                                let cont ="";
+                                for(let i=0;i<books.length;i++)
+                                {
+                                    cont += "<br/> " +books[i].bookid+" "+books[i].bookname+" "+books[i].price;
+                                }
+                                $("#msg2").html(cont);
+
+
+                      
+                    },
+         error: (error)=> {
+                      
+                        console.log("we have trouble "+ error)
+                    }
+    }
+    $.ajax(ajaxparameters);
+});
+
+
+
+
+
+
+});
+
+
+
+    </script>
+    <title>Books</title>
+</head>
+<body>
+    <input type="text" id="input1" placeholder="Enter Book ID">
+    <span id="msg1"></span><br>
+    <input type="text" id="input2" placeholder="Enter Book Name"><br>
+    <input type="text" id="input3" placeholder="Enter Book Price"><br>
+    <button type="button" id="Btn">Add a Book</button>
+    <p id="msg2"></p>
+</body>
+</html>
